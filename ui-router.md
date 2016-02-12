@@ -1,3 +1,5 @@
+- [На главную] [https://github.com/Severenit/ngLoftSchool/]
+<hr/>
 # Работа с ui-router
 
 Вся работа с `ui-route` происходит в `angular.config`
