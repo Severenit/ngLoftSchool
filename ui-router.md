@@ -1,5 +1,5 @@
-- [На главную]: <https://github.com/Severenit/ngLoftSchool/>
-
+- [AngularJS]
+[AngularJS]: <https://github.com/Severenit/ngLoftSchool/>
 <hr/>
 
 # Работа с ui-router
