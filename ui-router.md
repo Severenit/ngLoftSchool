@@ -1,5 +1,5 @@
-- [AngularJS]
-[AngularJS]: <https://github.com/Severenit/ngLoftSchool/>
+* [Back to Main]
+[Back to Main]: <https://github.com/Severenit/ngLoftSchool/>
 <hr/>
 
 # Работа с ui-router
