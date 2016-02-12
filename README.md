@@ -71,7 +71,7 @@ angular.config(function($stateProvider, $urlRouterProvider) {
 Так же можно передать параметры и как доп.аргументы к вашей ссылке
 ```js
     $stateProvider.state('home', {
-        url: '/home?id&personal,
+        url: '/home?id&personal',
         template: '<h1>Home Page</h1>'
     });
 ```
@@ -80,7 +80,7 @@ angular.config(function($stateProvider, $urlRouterProvider) {
 Все эти парамерты в вашем `controller` вы можете принять при помощи сервиса `$stateParams`
 ```js
     $stateProvider.state('home', {
-        url: '/home/:id/:personal,
+        url: '/home/:id/:personal',
         template: '<h1>Home Page</h1>',
         controller: function($scope, $stateParams) {
             $scope.id = $stateParams.id;
