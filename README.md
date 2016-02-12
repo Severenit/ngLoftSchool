@@ -71,7 +71,7 @@ angular.config(function($stateProvider, $urlRouterProvider) {
 Так же можно передать параметры и как доп.аргументы к вашей ссылке
 ```js
     $stateProvider.state('home', {
-        url: '/home?id&personal',
+        url: '/home?id&personal,
         template: '<h1>Home Page</h1>'
     });
 ```
@@ -80,7 +80,7 @@ angular.config(function($stateProvider, $urlRouterProvider) {
 Все эти парамерты в вашем `controller` вы можете принять при помощи сервиса `$stateParams`
 ```js
     $stateProvider.state('home', {
-        url: '/home/:id/:personal',
+        url: '/home/:id/:personal,
         template: '<h1>Home Page</h1>',
         controller: function($scope, $stateParams) {
             $scope.id = $stateParams.id;
@@ -89,3 +89,62 @@ angular.config(function($stateProvider, $urlRouterProvider) {
     });
 ```
 > По рекомендации ui-route советуют выносить `$state` и `$stateParams` в основной метод `angular.run()`, где его присвоить пременным `$rootScope.$state = $state` и `$rootScope.$stateParams = $stateParams`. Таким образом в любом месте нашей страницы мы можем вызвать параметры которые мы передаем в **url** например `{{$stateParams.personal}}`
+
+### Углубление в state
+Одной из самых важных особенностей **ui-route** является возможность вложенности **ui-view**. Таким образом ваше приложение может быть более гибким и глубоким.
+```js
+    $stateProvider.state('home', {
+        url: '/home,
+        template: '<h1>Home Page</h1>'+
+            '<ui-view></ui-view>'
+    });
+    $stateProvider.state('home.user', {
+        url: '/user,
+        template: '<h1>User Page</h1>'
+    });
+```
+Тут стоит дать пару комментариев:
+- Самый верхний уровень это **state: home**, его путь http://localhost:8000/#/home и он будет отображаться в самом верхнем **ui-view**, т.е. в index.html;
+- Второй state это **state: home.user**, его путь будет уже http://localhost:8000/#/home/user, **заметьте что в url не указан home он подставляется автоматически**, и этот темплейт будет отображаться не в верхнем **ui-view** а во вложенном **home**, который вы можете найти в template;
+
+Но это не все осообенности связанные с вложенным *ui-view*
+
+Одной из ключевых его особенностей является в том, что мы можем давать имя *ui-view* и говорить в каком состоянии мы хотим использовать определенный из них.
+
+Так например:
+```js
+    $stateProvider.state('home', {
+        url: '/home',
+        views: {
+            "": {
+                template: '<h1>This is not name view</h1>'
+            },
+            "header": {
+                template: '<h1>This is header view</h1>'
+            },
+            "footer": {
+                template: '<h1>This is footer view</h1>'
+            }
+        }
+        template: '<h1>Home Page</h1>'
+    });
+    $stateProvider.state('home.user', {
+        url: '/user',
+        views: {
+            "@": {
+                template: '<h1>New State</h1>'
+            },
+            "header@": {
+                template: '<h1>Header 2</h1>'
+            },
+            "footer@": {
+                template: '<h1>Footer 2</h1>'
+            }
+        }
+        template: '<h1>Home Page</h1>'
+    });
+```
+В данном конкретном примере, мы добавили вложенное состояние от состояния home и теперь по ссылке http://localhost:8000/#/home/user будут заменены все *ui-view* на новые.
+> Тут сразу стоит отметить что именно символ `@` говорит нам о том что нужно смотреть на конкретное имя, и его менять, если не указать его то ваше приложение будет пытаться внутри **ui-view** найти **ui-view** с такими именами.
+
+Если вы не укажете шаблон для конкретного *view* то по умолчанию он будет брать *view* из предыдущего.
