@@ -1,3 +1,6 @@
+[Back to Main]
+[Back to Main]: <https://github.com/Severenit/ngLoftSchool/>
+<hr/>
 # Введение
 
 ## Что такое Angular?
